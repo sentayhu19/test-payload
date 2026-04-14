@@ -7,14 +7,14 @@ Quickly add PayloadCMS to any existing Next.js project. This package scaffolds P
 Run the setup command in your Next.js project:
 
 ```bash
-npx payload-next-starter init
+npx payload-next-starter
 ```
 
 Or install globally:
 
 ```bash
 npm install -g payload-next-starter
-init-payload
+payload-next-starter
 ```
 
 ## What it does
