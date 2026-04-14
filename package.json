@@ -1,6 +1,6 @@
 {
   "name": "payload-next-starter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "PayloadCMS starter for Next.js - install into any Next.js app",
   "license": "MIT",
   "type": "module",
