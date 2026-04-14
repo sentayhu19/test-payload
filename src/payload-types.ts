@@ -179,59 +179,188 @@ export interface Page {
   id: number;
   title: string;
   /**
-   * Use one of: home, about-us, contact-us, share
+   * URL path (e.g., "contact-us", "about", "pricing")
    */
   slug: string;
-  heroTitle?: string | null;
-  heroDescription?: string | null;
-  heroImage?: (number | null) | Media;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  sidebarNav?:
-    | {
-        label: string;
-        url: string;
-        id?: string | null;
-      }[]
+  layout?:
+    | (
+        | {
+            title: string;
+            subtitle?: string | null;
+            backgroundImage?: (number | null) | Media;
+            /**
+             * Call to action button text
+             */
+            ctaText?: string | null;
+            /**
+             * Call to action button link
+             */
+            ctaLink?: string | null;
+            alignment?: ('left' | 'center' | 'right') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading?: string | null;
+            body: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'content';
+          }
+        | {
+            heading?: string | null;
+            description?: string | null;
+            email: string;
+            phone?: string | null;
+            address?: string | null;
+            formFields?: ('name' | 'email' | 'phone' | 'subject' | 'message')[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactForm';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            items?:
+              | {
+                  /**
+                   * Emoji or icon name
+                   */
+                  icon?: string | null;
+                  title: string;
+                  description?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            columns?: ('2' | '3' | '4') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'features';
+          }
+        | {
+            heading?: string | null;
+            images?:
+              | {
+                  image: number | Media;
+                  caption?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            columns?: ('2' | '3' | '4') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageGallery';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            plans?:
+              | {
+                  name: string;
+                  price: string;
+                  period?: string | null;
+                  description?: string | null;
+                  features?:
+                    | {
+                        feature: string;
+                        id?: string | null;
+                      }[]
+                    | null;
+                  ctaText?: string | null;
+                  ctaLink?: string | null;
+                  highlighted?: boolean | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pricing';
+          }
+        | {
+            heading?: string | null;
+            testimonials?:
+              | {
+                  name: string;
+                  role?: string | null;
+                  company?: string | null;
+                  quote: string;
+                  avatar?: (number | null) | Media;
+                  rating?: ('5' | '4' | '3') | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'testimonials';
+          }
+        | {
+            heading: string;
+            description?: string | null;
+            buttonText: string;
+            buttonLink: string;
+            secondaryButtonText?: string | null;
+            secondaryButtonLink?: string | null;
+            style?: ('primary' | 'secondary' | 'accent') | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cta';
+          }
+        | {
+            heading?: string | null;
+            subheading?: string | null;
+            members?:
+              | {
+                  name: string;
+                  role: string;
+                  bio?: string | null;
+                  photo?: (number | null) | Media;
+                  linkedin?: string | null;
+                  twitter?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'team';
+          }
+        | {
+            heading?: string | null;
+            questions?:
+              | {
+                  question: string;
+                  answer: string;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+      )[]
     | null;
-  contactMethods?:
-    | {
-        icon: 'email' | 'phone' | 'location' | 'clock';
-        label: string;
-        value: string;
-        id?: string | null;
-      }[]
-    | null;
-  shareLinks?:
-    | {
-        label: string;
-        url: string;
-        id?: string | null;
-      }[]
-    | null;
-  referral?: {
-    title?: string | null;
-    description?: string | null;
-    link?: string | null;
-  };
-  newsletter?: {
-    title?: string | null;
-    description?: string | null;
-    placeholder?: string | null;
-    buttonLabel?: string | null;
+  seo?: {
+    /**
+     * Defaults to page title if empty
+     */
+    metaTitle?: string | null;
+    metaDescription?: string | null;
+    metaImage?: (number | null) | Media;
+    noIndex?: boolean | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -454,46 +583,171 @@ export interface MediaSelect<T extends boolean = true> {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
-  heroTitle?: T;
-  heroDescription?: T;
-  heroImage?: T;
-  content?: T;
-  sidebarNav?:
+  layout?:
     | T
     | {
-        label?: T;
-        url?: T;
-        id?: T;
+        hero?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              backgroundImage?: T;
+              ctaText?: T;
+              ctaLink?: T;
+              alignment?: T;
+              id?: T;
+              blockName?: T;
+            };
+        content?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contactForm?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              email?: T;
+              phone?: T;
+              address?: T;
+              formFields?: T;
+              id?: T;
+              blockName?: T;
+            };
+        features?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              items?:
+                | T
+                | {
+                    icon?: T;
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              columns?: T;
+              id?: T;
+              blockName?: T;
+            };
+        imageGallery?:
+          | T
+          | {
+              heading?: T;
+              images?:
+                | T
+                | {
+                    image?: T;
+                    caption?: T;
+                    id?: T;
+                  };
+              columns?: T;
+              id?: T;
+              blockName?: T;
+            };
+        pricing?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              plans?:
+                | T
+                | {
+                    name?: T;
+                    price?: T;
+                    period?: T;
+                    description?: T;
+                    features?:
+                      | T
+                      | {
+                          feature?: T;
+                          id?: T;
+                        };
+                    ctaText?: T;
+                    ctaLink?: T;
+                    highlighted?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        testimonials?:
+          | T
+          | {
+              heading?: T;
+              testimonials?:
+                | T
+                | {
+                    name?: T;
+                    role?: T;
+                    company?: T;
+                    quote?: T;
+                    avatar?: T;
+                    rating?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        cta?:
+          | T
+          | {
+              heading?: T;
+              description?: T;
+              buttonText?: T;
+              buttonLink?: T;
+              secondaryButtonText?: T;
+              secondaryButtonLink?: T;
+              style?: T;
+              id?: T;
+              blockName?: T;
+            };
+        team?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              members?:
+                | T
+                | {
+                    name?: T;
+                    role?: T;
+                    bio?: T;
+                    photo?: T;
+                    linkedin?: T;
+                    twitter?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              heading?: T;
+              questions?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
       };
-  contactMethods?:
+  seo?:
     | T
     | {
-        icon?: T;
-        label?: T;
-        value?: T;
-        id?: T;
-      };
-  shareLinks?:
-    | T
-    | {
-        label?: T;
-        url?: T;
-        id?: T;
-      };
-  referral?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        link?: T;
-      };
-  newsletter?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        placeholder?: T;
-        buttonLabel?: T;
+        metaTitle?: T;
+        metaDescription?: T;
+        metaImage?: T;
+        noIndex?: T;
       };
   updatedAt?: T;
   createdAt?: T;

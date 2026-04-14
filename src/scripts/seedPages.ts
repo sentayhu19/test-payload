@@ -69,70 +69,79 @@ const pages: PageSeed[] = [
   {
     title: 'Home',
     slug: 'home',
-    heroTitle: 'Welcome to Your Site',
-    heroDescription:
-      'Build and manage your homepage content directly from the Payload admin panel.',
-    content: richText(
-      'This is your homepage. Use the Payload admin to update the hero section, featured messaging, and page content.',
-      'You can draft changes, preview them, and publish when ready.',
-    ),
+    layout: [
+      {
+        blockType: 'hero',
+        title: 'Welcome to Your Site',
+        subtitle: 'Build and manage your homepage content directly from the Payload admin panel.',
+        ctaText: 'Get Started',
+        ctaLink: '/contact-us',
+      },
+      {
+        blockType: 'content',
+        heading: 'Welcome',
+        body: richText(
+          'This is your homepage. Use the Payload admin to update the hero section, featured messaging, and page content.',
+          'You can draft changes, preview them, and publish when ready.',
+        ),
+      },
+    ],
   },
   {
     title: 'About Us',
     slug: 'about-us',
-    heroTitle: 'About Us',
-    heroDescription: 'Share your story, mission, values, and what makes your brand unique.',
-    content: richText(
-      'Welcome to our company. We are dedicated to delivering exceptional products and services that meet the needs of our customers.',
-      'Founded with a vision to make a difference, we continue to create value through quality, integrity, and customer-focused solutions.',
-    ),
+    layout: [
+      {
+        blockType: 'hero',
+        title: 'About Us',
+        subtitle: 'Share your story, mission, values, and what makes your brand unique.',
+      },
+      {
+        blockType: 'content',
+        heading: 'Our Story',
+        body: richText(
+          'Welcome to our company. We are dedicated to delivering exceptional products and services that meet the needs of our customers.',
+          'Founded with a vision to make a difference, we continue to create value through quality, integrity, and customer-focused solutions.',
+        ),
+      },
+    ],
   },
   {
     title: 'Contact Us',
     slug: 'contact-us',
-    heroTitle: 'Get In Touch',
-    heroDescription: 'We would love to hear from you. Reach out and start the conversation.',
-    content: richText(
-      'Use this page to share your business contact details, support guidance, and any extra instructions for visitors.',
-      'You can fully edit the sidebar navigation, hero area, and contact cards from the admin.',
-    ),
-    sidebarNav: [
-      { label: 'Home', url: '/' },
-      { label: 'About Us', url: '/about-us' },
-      { label: 'Contact Us', url: '/contact-us' },
-    ],
-    contactMethods: [
-      { icon: 'email', label: 'Email', value: 'contact@example.com' },
-      { icon: 'phone', label: 'Phone', value: '+1 (555) 123-4567' },
-      { icon: 'location', label: 'Address', value: '123 Main Street, City, State 12345' },
+    layout: [
+      {
+        blockType: 'hero',
+        title: 'Get In Touch',
+        subtitle: 'We would love to hear from you. Reach out and start the conversation.',
+      },
+      {
+        blockType: 'contactForm',
+        heading: 'Contact Information',
+        email: 'contact@example.com',
+        phone: '+1 (555) 123-4567',
+        address: '123 Main Street, City, State 12345',
+      },
     ],
   },
   {
     title: 'Share',
     slug: 'share',
-    heroTitle: 'Share',
-    heroDescription: 'Promote your brand, links, referrals, and newsletter from one place.',
-    content: richText(
-      'Encourage visitors to share your content, join your newsletter, and participate in referral campaigns.',
-      'All sections on this page can be edited directly from the Payload admin.',
-    ),
-    shareLinks: [
-      { label: 'Twitter', url: 'https://twitter.com/share' },
-      { label: 'Facebook', url: 'https://facebook.com/share' },
-      { label: 'LinkedIn', url: 'https://linkedin.com/shareArticle' },
-      { label: 'Instagram', url: 'https://instagram.com' },
+    layout: [
+      {
+        blockType: 'hero',
+        title: 'Share',
+        subtitle: 'Promote your brand, links, referrals, and newsletter from one place.',
+      },
+      {
+        blockType: 'content',
+        heading: 'Share Our Content',
+        body: richText(
+          'Encourage visitors to share your content, join your newsletter, and participate in referral campaigns.',
+          'All sections on this page can be edited directly from the Payload admin.',
+        ),
+      },
     ],
-    referral: {
-      title: 'Refer a Friend',
-      description: 'Share your referral link and reward supporters for spreading the word.',
-      link: 'https://example.com/ref/YOUR-CODE',
-    },
-    newsletter: {
-      title: 'Newsletter',
-      description: 'Let visitors subscribe to updates, launches, and new announcements.',
-      placeholder: 'Enter your email',
-      buttonLabel: 'Subscribe',
-    },
   },
 ]
 

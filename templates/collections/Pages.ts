@@ -340,11 +340,7 @@ export const Pages: CollectionConfig = {
               name: 'seo',
               type: 'group',
               fields: [
-                {
-                  name: 'metaTitle',
-                  type: 'text',
-                  admin: { description: 'Defaults to page title if empty' },
-                },
+                { name: 'metaTitle', type: 'text', admin: { description: 'Defaults to page title if empty' } },
                 { name: 'metaDescription', type: 'textarea' },
                 { name: 'metaImage', type: 'upload', relationTo: 'media' },
                 { name: 'noIndex', type: 'checkbox', defaultValue: false },

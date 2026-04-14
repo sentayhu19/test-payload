@@ -36,6 +36,9 @@ try {
   mkdirSync(join(targetDir, 'src/app/(payload)'), { recursive: true })
   mkdirSync(join(targetDir, 'src/app/api/[...payload]'), { recursive: true })
   mkdirSync(join(targetDir, 'src/collections'), { recursive: true })
+  mkdirSync(join(targetDir, 'src/components'), { recursive: true })
+  mkdirSync(join(targetDir, 'src/components/blocks'), { recursive: true })
+  mkdirSync(join(targetDir, 'src/lib'), { recursive: true })
 } catch (e) {
   // Directories might already exist
 }
@@ -71,7 +74,16 @@ if (existsSync(join(templatesDir, 'app/(frontend)'))) {
     recursive: true,
     force: true,
   })
-  console.log('  ✓ Frontend pages (about-us, contact-us, share)/')
+  console.log('  ✓ Frontend pages (about-us, contact-us, share, [slug])/')
+}
+
+// Copy components
+if (existsSync(join(templatesDir, 'components'))) {
+  cpSync(join(templatesDir, 'components'), join(targetDir, 'src/components'), {
+    recursive: true,
+    force: true,
+  })
+  console.log('  ✓ components/ (blocks, BlockRenderer, RichTextContent)/')
 }
 
 if (existsSync(join(templatesDir, 'app/api/[...payload]'))) {

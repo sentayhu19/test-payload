@@ -1,13 +1,21 @@
 {
   "name": "payload-next-starter",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "PayloadCMS starter for Next.js - install into any Next.js app",
   "license": "MIT",
   "type": "module",
   "bin": "./bin/setup.js",
+  "exports": {
+    "./blocks": "./src/components/blocks/index.ts",
+    "./BlockRenderer": "./src/components/BlockRenderer.tsx",
+    "./RichTextContent": "./src/components/RichTextContent.tsx"
+  },
   "files": [
     "bin/",
     "templates/",
+    "src/components/",
+    "src/collections/",
+    "src/lib/",
     "README.md"
   ],
   "keywords": [
