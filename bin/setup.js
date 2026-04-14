@@ -20,7 +20,7 @@ if (!existsSync(join(targetDir, 'package.json'))) {
 
 const pkg = JSON.parse(readFileSync(join(targetDir, 'package.json'), 'utf8'))
 if (!pkg.dependencies?.next) {
-  console.error('❌ This doesn\'t appear to be a Next.js project.')
+  console.error("❌ This doesn't appear to be a Next.js project.")
   process.exit(1)
 }
 
@@ -42,27 +42,43 @@ try {
 
 // Copy payload.config.ts
 if (existsSync(join(templatesDir, 'payload.config.ts'))) {
-  copyFileSync(
-    join(templatesDir, 'payload.config.ts'),
-    join(targetDir, 'src/payload.config.ts')
-  )
+  copyFileSync(join(templatesDir, 'payload.config.ts'), join(targetDir, 'src/payload.config.ts'))
   console.log('  ✓ payload.config.ts')
 }
 
 // Copy collections
 if (existsSync(join(templatesDir, 'collections'))) {
-  cpSync(join(templatesDir, 'collections'), join(targetDir, 'src/collections'), { recursive: true, force: true })
+  cpSync(join(templatesDir, 'collections'), join(targetDir, 'src/collections'), {
+    recursive: true,
+    force: true,
+  })
   console.log('  ✓ collections/')
 }
 
 // Copy app routes
 if (existsSync(join(templatesDir, 'app/(payload)'))) {
-  cpSync(join(templatesDir, 'app/(payload)'), join(targetDir, 'src/app/(payload)'), { recursive: true, force: true })
+  cpSync(join(templatesDir, 'app/(payload)'), join(targetDir, 'src/app/(payload)'), {
+    recursive: true,
+    force: true,
+  })
   console.log('  ✓ app/(payload)/')
 }
 
+// Copy frontend pages
+if (existsSync(join(templatesDir, 'app/(frontend)'))) {
+  mkdirSync(join(targetDir, 'src/app/(frontend)'), { recursive: true })
+  cpSync(join(templatesDir, 'app/(frontend)'), join(targetDir, 'src/app/(frontend)'), {
+    recursive: true,
+    force: true,
+  })
+  console.log('  ✓ Frontend pages (about-us, contact-us, share)/')
+}
+
 if (existsSync(join(templatesDir, 'app/api/[...payload]'))) {
-  cpSync(join(templatesDir, 'app/api/[...payload]'), join(targetDir, 'src/app/api/[...payload]'), { recursive: true, force: true })
+  cpSync(join(templatesDir, 'app/api/[...payload]'), join(targetDir, 'src/app/api/[...payload]'), {
+    recursive: true,
+    force: true,
+  })
   console.log('  ✓ app/api/[...payload]/')
 }
 
@@ -75,16 +91,19 @@ const deps = [
   '@payloadcms/richtext-lexical',
   '@payloadcms/ui',
   'dotenv',
-  'cross-env'
+  'cross-env',
 ]
 
 try {
-  const pkgManager = existsSync(join(targetDir, 'pnpm-lock.yaml')) ? 'pnpm' :
-                     existsSync(join(targetDir, 'yarn.lock')) ? 'yarn' : 'npm'
+  const pkgManager = existsSync(join(targetDir, 'pnpm-lock.yaml'))
+    ? 'pnpm'
+    : existsSync(join(targetDir, 'yarn.lock'))
+      ? 'yarn'
+      : 'npm'
 
   execSync(`${pkgManager} add ${deps.join(' ')}`, {
     cwd: targetDir,
-    stdio: 'inherit'
+    stdio: 'inherit',
   })
   console.log('✓ Dependencies installed\n')
 } catch (e) {
@@ -116,24 +135,30 @@ export default withPayload(nextConfig)
   }
 } else {
   console.log('  ⚠ No next.config found, creating one...')
-  writeFileSync(join(targetDir, 'next.config.ts'), `import { withPayload } from '@payloadcms/next/withPayload'
+  writeFileSync(
+    join(targetDir, 'next.config.ts'),
+    `import { withPayload } from '@payloadcms/next/withPayload'
 
 const nextConfig = {
   // your config
 }
 
 export default withPayload(nextConfig)
-`)
+`,
+  )
   console.log('  ✓ next.config.ts created\n')
 }
 
 // Create .env.example
 if (!existsSync(join(targetDir, '.env'))) {
-  writeFileSync(join(targetDir, '.env.example'), `# PayloadCMS
+  writeFileSync(
+    join(targetDir, '.env.example'),
+    `# PayloadCMS
 DATABASE_URI=postgresql://user:password@host:5432/database
 PAYLOAD_SECRET=your-secret-key-here-at-least-16-chars
 NEXT_PUBLIC_SERVER_URL=http://localhost:3000
-`)
+`,
+  )
   console.log('  ✓ .env.example created')
 }
 
