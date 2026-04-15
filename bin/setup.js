@@ -39,6 +39,8 @@ try {
   mkdirSync(join(targetDir, 'src/components'), { recursive: true })
   mkdirSync(join(targetDir, 'src/components/blocks'), { recursive: true })
   mkdirSync(join(targetDir, 'src/lib'), { recursive: true })
+  mkdirSync(join(targetDir, 'src/scripts'), { recursive: true })
+  mkdirSync(join(targetDir, 'src/app/next/preview'), { recursive: true })
 } catch (e) {
   // Directories might already exist
 }
@@ -94,6 +96,25 @@ if (existsSync(join(templatesDir, 'app/api/[...payload]'))) {
   console.log('  ✓ app/api/[...payload]/')
 }
 
+// Copy preview route
+if (existsSync(join(templatesDir, 'app/next/preview'))) {
+  mkdirSync(join(targetDir, 'src/app/next/preview'), { recursive: true })
+  cpSync(join(templatesDir, 'app/next/preview'), join(targetDir, 'src/app/next/preview'), {
+    recursive: true,
+    force: true,
+  })
+  console.log('  ✓ app/next/preview/ (draft mode)')
+}
+
+// Copy seed script
+if (existsSync(join(templatesDir, 'scripts'))) {
+  cpSync(join(templatesDir, 'scripts'), join(targetDir, 'src/scripts'), {
+    recursive: true,
+    force: true,
+  })
+  console.log('  ✓ scripts/seedPages.ts')
+}
+
 console.log('\n📦 Installing dependencies...')
 
 const deps = [
@@ -117,10 +138,36 @@ try {
     cwd: targetDir,
     stdio: 'inherit',
   })
+
+  // Install dev deps for seed script
+  execSync(`${pkgManager} add -D tsx cross-env`, {
+    cwd: targetDir,
+    stdio: 'inherit',
+  })
+
   console.log('✓ Dependencies installed\n')
 } catch (e) {
   console.error('❌ Failed to install dependencies:', e.message)
   process.exit(1)
+}
+
+// Add seed script to package.json
+console.log('📝 Adding scripts to package.json...')
+try {
+  const targetPkg = JSON.parse(readFileSync(join(targetDir, 'package.json'), 'utf8'))
+  if (!targetPkg.scripts) targetPkg.scripts = {}
+  if (!targetPkg.scripts['seed:pages']) {
+    targetPkg.scripts['seed:pages'] =
+      'cross-env NODE_OPTIONS=--no-deprecation tsx src/scripts/seedPages.ts'
+    targetPkg.scripts['generate:types'] =
+      'cross-env NODE_OPTIONS=--no-deprecation payload generate:types'
+    targetPkg.scripts['generate:importmap'] =
+      'cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap'
+    writeFileSync(join(targetDir, 'package.json'), JSON.stringify(targetPkg, null, 2) + '\n')
+    console.log('  ✓ Added seed:pages, generate:types, generate:importmap scripts')
+  }
+} catch (e) {
+  console.log('  ⚠ Could not update scripts in package.json')
 }
 
 // Update next.config
@@ -180,4 +227,9 @@ console.log('  1. Copy .env.example to .env and fill in your values')
 console.log('  2. Run: npx payload generate:importmap')
 console.log('  3. Run: npx payload generate:types')
 console.log('  4. Start your dev server: npm run dev')
-console.log('\nAdmin panel will be at: http://localhost:3000/admin')
+console.log('  5. Seed sample pages: npm run seed:pages')
+console.log("     (This only creates pages that don't already exist in the DB)")
+console.log('\nAdmin panel: http://localhost:3000/admin')
+console.log(
+  'Pages:       http://localhost:3000/home, /about-us, /contact-us, /services, /pricing, /faq, /share',
+)

@@ -10,7 +10,7 @@ html {
   font-size: 18px;
   line-height: 32px;
 
-  background: rgb(0, 0, 0);
+  background: #ffffff;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -26,7 +26,7 @@ body {
   line-height: 32px;
 
   margin: 0;
-  color: rgb(1000, 1000, 1000);
+  color: #1e293b;
 
   @media (max-width: 1024px) {
     font-size: 15px;
@@ -128,15 +128,15 @@ svg {
     }
 
     .admin {
-      color: rgb(0, 0, 0);
-      background: rgb(1000, 1000, 1000);
-      border: 1px solid rgb(0, 0, 0);
+      color: #fff;
+      background: #1e3a5f;
+      border: 1px solid #1e3a5f;
     }
 
     .docs {
-      color: rgb(1000, 1000, 1000);
-      background: rgb(0, 0, 0);
-      border: 1px solid rgb(1000, 1000, 1000);
+      color: #1e3a5f;
+      background: #fff;
+      border: 1px solid #1e3a5f;
     }
   }
 
@@ -157,7 +157,7 @@ svg {
     .codeLink {
       text-decoration: none;
       padding: 0 0.5rem;
-      background: rgb(60, 60, 60);
+      background: #e2e8f0;
       border-radius: 4px;
     }
   }

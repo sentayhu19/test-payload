@@ -67,9 +67,29 @@ export default async function DynamicPage({ params }: { params: Promise<{ slug: 
   const page = result.docs[0]
   if (!page) notFound()
 
+  const hasBlocks = Array.isArray(page.layout) && page.layout.length > 0
+
   return (
-    <div>
-      {page.layout ? <BlockRenderer blocks={page.layout} /> : null}
+    <div style={{ minHeight: '100vh' }}>
+      {hasBlocks ? (
+        <BlockRenderer blocks={page.layout!} />
+      ) : (
+        <div
+          style={{
+            maxWidth: '800px',
+            margin: '0 auto',
+            padding: '80px 40px',
+            textAlign: 'center',
+          }}
+        >
+          <h1 style={{ fontSize: '36px', fontWeight: 700, color: '#1e3a5f', marginBottom: '16px' }}>
+            {page.title}
+          </h1>
+          <p style={{ fontSize: '18px', color: '#64748b' }}>
+            This page has no content blocks yet. Add blocks in the admin panel.
+          </p>
+        </div>
+      )}
     </div>
   )
 }
